@@ -348,20 +348,48 @@ df_master.to_pickle("./df_master.pkl")
 # df_master = pd.read_pickle("./df_master.pkl")
 ```
 
+Employ folium.Map, which initialises a map at an initial set of co-ordinates and zoom
+
+mp = folium.Map(location=[df_master['gps'].iloc[0][0], df_master['gps'].iloc[0][1]], zoom_start=12, width='100%')
+#min_lat=50, max_lat=52, min_lon=-2, max_lon=-1, max_bounds=True)
+
+Points = []  # Initialise empty list
+
+df_master = df_master.reset_index(drop=True)  # Reset index
+for i,r in tqdm(df_master.iterrows()):  # Loop over rows
+    try:
+        Day = df_master['Run'].iloc[i]  
+        Day_Next = df_master['Run'].iloc[i+1]  # Locate end of activity
+
+    except IndexError:  # Break if activity has concluded
+        continue
+   
+    if Day_Next == Day:
+        P = tuple(df_master['gps'].iloc[i] )  # Create a tuple of GPS lat/long co-ordinates
+        Points.append(P)
+    else:
+        folium.PolyLine(Points, color="blue", weight=1.5, opacity=0.25).add_to(mp)  # Plot these to the folium map
+        Points = []
+        continue
+
+
+mp  # Display interactive map (if viewing on github, see README.md for screenshot,
+    #or run this notebook with your own data).
+
 By running our folium code (see main notebook), we can produce a full interactive map.
 
 I include images here to show this functionality. 
 
 
 ```python
-Image("Soton_med.png", width="1000", height="1000")
+Image("Images/Soton_med.png", width="1000", height="1000")
 ```
 
 
 
 
     
-![png](output_14_0.png)
+![png](output_15_0.png)
     
 
 
@@ -370,14 +398,14 @@ Including on smaller scales.
 
 
 ```python
-Image("Soton_small.png", width="500", height="500")
+Image("Images/Soton_small.png", width="500", height="500")
 ```
 
 
 
 
     
-![png](output_16_0.png)
+![png](output_17_0.png)
     
 
 
@@ -386,14 +414,14 @@ And larger ones.
 
 
 ```python
-Image("Soton_large.png", width="800", height="800")
+Image("Images/Soton_large.png", width="800", height="800")
 ```
 
 
 
 
     
-![png](output_18_0.png)
+![png](output_19_0.png)
     
 
 
@@ -424,18 +452,53 @@ We can also create a heatmap with folium, using a plugin.
 from folium.plugins import HeatMap
 ```
 
+ Initialise folium heatmap
+
+hmap = folium.Map(location=[df_master['gps'].iloc[0][0], df_master['gps'].iloc[0][1]], zoom_start=10, width='100%')
+
+H_Points = []
+
+ As before:
+
+df_master = df_master.reset_index(drop=True)
+for i,r in tqdm(df_master.iterrows()):
+    try:
+        Day = df_master['Run'].iloc[i]
+        Day_Next = df_master['Run'].iloc[i+1]
+
+    except IndexError:
+        continue
+   
+    if Day_Next == Day:
+        P = tuple(df_master['gps'].iloc[i] )
+        H_Points.append(P)
+    else:
+        continue
+        
+ Define the features of the heatmap (including gradients):
+
+HeatMap(H_Points).add_to(folium.FeatureGroup(name='Heat Map',radius=2.5,blur=5, 
+                                             gradient={0.2:'blue', 0.4:'lime', 1:'red'}, zoom_start=10).add_to(hmap))
+
+ Add this GIS layer to the folium map:
+
+folium.LayerControl().add_to(hmap)
+        
+hmap   # Display interactive map (if viewing on github, see README.md for screenshot,
+       # or run this notebook with your own data).
+
 Similarly, after implementing the code in the notebook, we can produce a fully interactable heatmap (as captured here in an image.)
 
 
 ```python
-img src="Heatmap.png" width="800" height="1000"/
+Image("Images/Heatmap.png", width="800", height="1000")
 ```
 
 
 
 
     
-![png](output_24_0.png)
+![png](output_26_0.png)
     
 
 
@@ -627,7 +690,7 @@ plt.text(x=-1.081, y=50.705, s='Elevation change (m)', rotation=270, fontsize=18
 
 
     
-![png](output_34_1.png)
+![png](output_36_1.png)
     
 
 
@@ -712,7 +775,7 @@ plt.plot(xs, ys, linewidth=2, color='orange')  # Plot over race map
 
 
     
-![png](output_42_1.png)
+![png](output_44_1.png)
     
 
 
