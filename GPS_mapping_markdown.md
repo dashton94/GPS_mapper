@@ -354,7 +354,7 @@ I include images here to show this functionality.
 
 
 ```python
-Image("Soton_med.png", width=1000, height=1000)
+Image("Soton_med.png", width="1000", height="1000")
 ```
 
 
@@ -370,7 +370,7 @@ Including on smaller scales.
 
 
 ```python
-Image("Soton_small.png", width=500, height=500)
+Image("Soton_small.png", width="500", height="500")
 ```
 
 
@@ -386,7 +386,7 @@ And larger ones.
 
 
 ```python
-Image("Soton_large.png", width=800, height=800)
+Image("Soton_large.png", width="800", height="800")
 ```
 
 
@@ -428,7 +428,7 @@ Similarly, after implementing the code in the notebook, we can produce a fully i
 
 
 ```python
-Image("Heatmap.png", width=1000, height=1000)
+Image("Heatmap.png", width="1000", height="1000")
 ```
 
 
