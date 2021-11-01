@@ -21,6 +21,8 @@ from tqdm import tqdm
 from stravaio import strava_oauth2
 from stravalib import Client
 from dotenv import load_dotenv
+
+from IPython.display import Image
 ```
 
 ## Access the Strava API
@@ -346,22 +348,55 @@ df_master.to_pickle("./df_master.pkl")
 # df_master = pd.read_pickle("./df_master.pkl")
 ```
 
+By running our folium code (see main notebook), we can produce a full interactive map.
 
-```python
-
-```
-
-![alt text](Soton_med.png.png "Southampton View 1")
+I include images here to show this functionality. 
 
 
 ```python
-
+Image("Soton_med.png", width=1000, height=1000)
 ```
 
 
-![alt text](Soton_small.png.png "Southampton View 2")
 
-![alt text](Soton_large.png.png "Southampton View 3")
+
+    
+![png](output_14_0.png)
+    
+
+
+
+Including on smaller scales.
+
+
+```python
+Image("Soton_small.png", width=500, height=500)
+```
+
+
+
+
+    
+![png](output_16_0.png)
+    
+
+
+
+And larger ones.
+
+
+```python
+Image("Soton_large.png", width=800, height=800)
+```
+
+
+
+
+    
+![png](output_18_0.png)
+    
+
+
 
 
 ```python
@@ -389,12 +424,20 @@ We can also create a heatmap with folium, using a plugin.
 from folium.plugins import HeatMap
 ```
 
+Similarly, after implementing the code in the notebook, we can produce a fully interactable heatmap (as captured here in an image.)
+
 
 ```python
-
+Image("Heatmap.png", width=1000, height=1000)
 ```
 
-![alt text](Heatmap.png.png "Heatmap view")
+
+
+
+    
+![png](output_24_0.png)
+    
+
 
 
 # Race Profile Analysis
@@ -584,7 +627,7 @@ plt.text(x=-1.081, y=50.705, s='Elevation change (m)', rotation=270, fontsize=18
 
 
     
-![png](output_32_1.png)
+![png](output_34_1.png)
     
 
 
@@ -669,7 +712,7 @@ plt.plot(xs, ys, linewidth=2, color='orange')  # Plot over race map
 
 
     
-![png](output_40_1.png)
+![png](output_42_1.png)
     
 
 
