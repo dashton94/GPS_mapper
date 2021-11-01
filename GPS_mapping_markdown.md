@@ -428,7 +428,7 @@ Similarly, after implementing the code in the notebook, we can produce a fully i
 
 
 ```python
-Image("Heatmap.png", width="1000", height="1000")
+img src="Heatmap.png" width="800" height="1000"/
 ```
 
 
